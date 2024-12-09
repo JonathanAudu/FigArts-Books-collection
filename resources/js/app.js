@@ -1,5 +1,5 @@
 import { createApp, h } from 'vue';
-import { createInertiaApp, Head, Link } from '@inertiajs/vue3';
+import { createInertiaApp, Head, Link, usePage, useForm } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
 createInertiaApp({
@@ -14,6 +14,8 @@ createInertiaApp({
         .use(plugin)
         .component('InertiaHead', Head)
         .component('InertiaLink', Link)
+        .component('InertiaUsePage', usePage)
+        .component('InertiaUseForm', useForm)
         .mount(el);
     },
 });

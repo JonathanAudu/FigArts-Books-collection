@@ -1,7 +1,6 @@
 <template>
     <div class="p-6 max-w-7xl mx-auto">
         <h1 class="text-3xl font-semibold mb-6 text-gray-800">Books</h1>
-
         <div class="flex justify-between items-center mb-4">
             <div class="flex items-center space-x-4">
                 <label for="status" class="text-lg">Filter by Status:</label>
@@ -25,7 +24,12 @@
                 </Link>
             </div>
         </div>
-
+        <div
+            v-if="successMessage"
+            class="p-4 mb-4 text-xxl text-center text-green-800 bg-green-100 rounded"
+        >
+            {{ successMessage }}
+        </div>
         <table class="min-w-full table-auto border-separate border-spacing-0">
             <thead>
                 <tr class="bg-gray-100">
@@ -82,10 +86,10 @@
                         >
 
                         <span>|</span>
-                        <inertia-link
+                        <Link
                             :href="`/books/${book.id}/edit`"
                             class="text-green-500 hover:text-green-700"
-                            >Edit</inertia-link
+                            >Edit</Link
                         >
                         <span>|</span>
                         <button
@@ -112,17 +116,16 @@
                         ? 'bg-blue-500 text-white'
                         : 'bg-gray-200 text-gray-700',
                 ]"
-            >
-                {{ link.label }}
-            </button>
+                v-html="link.label"
+            ></button>
         </div>
     </div>
 </template>
 
 <script>
-import { router } from "@inertiajs/vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/vue3";
+import { usePage } from "@inertiajs/vue3";
 
 export default {
     components: {
@@ -137,6 +140,11 @@ export default {
                 status: "",
             },
         };
+    },
+    computed: {
+        successMessage() {
+            return usePage().props.flash || null;
+        },
     },
     methods: {
         filterBooks() {
