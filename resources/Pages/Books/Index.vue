@@ -125,7 +125,7 @@
 <script>
 import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/vue3";
-import { usePage } from "@inertiajs/vue3";
+import { router, usePage } from "@inertiajs/vue3";
 
 export default {
     components: {
@@ -133,6 +133,7 @@ export default {
     },
     props: {
         books: Object,
+        filters: Object,
     },
     data() {
         return {
@@ -149,16 +150,20 @@ export default {
     methods: {
         filterBooks() {
             console.log(this.filters);
-            Inertia.get("/books", this.filters, { preserveState: true });
+            router.get("/books", this.filters, { preserveState: true });
             console.log(this.books.links);
         },
         archiveBook(id) {
             if (confirm("Are you sure you want to archive this book?")) {
-                Inertia.delete(`/books/${id}`);
+                router.delete(`/books/${id}`);
             }
         },
         goToPage(url) {
-            Inertia.get(url, { preserveState: true });
+            router.get(url, { preserveState: true });
+        },
+        mounted() {
+            const { filters } = usePage().props;
+            this.filters.status = filters?.status || "";
         },
     },
 };

@@ -19,9 +19,8 @@ use App\Http\Controllers\BookController;
 // });
 
 
-// Route::resource('books', BookController::class);
-
 Route::get('/', [BookController::class, 'index'])->name('books.index'); // List books
+Route::get('/books', [BookController::class, 'index'])->name('books.index'); // Filter books
 Route::get('/books/create', [BookController::class, 'create'])->name('books.create'); // Show create form
 Route::post('/books', [BookController::class, 'store'])->name('books.store'); // Store new book
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show'); // Show a single book
